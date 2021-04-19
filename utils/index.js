@@ -68,7 +68,7 @@ module.exports.complete = function (data, { chalk }) {
       return runLintFix(cwd, green)
     })
     .then(() => {
-      console.log(`\n ${green('[*] Asteroid project initialization finished!')}\n`)
+      console.log(`\n${green('[*] Asteroid project initialization finished!')}`)
     })
     .catch(error => {
       console.log(chalk.red('Error:'), error)

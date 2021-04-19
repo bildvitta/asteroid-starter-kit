@@ -1,5 +1,6 @@
 # Asteroid App Template
-> Starter Kit for a Asteroid project.
+
+Starter Kit for an Asteroid project.
 
 ## Usage
 
