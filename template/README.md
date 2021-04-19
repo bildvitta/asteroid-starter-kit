@@ -3,30 +3,29 @@
 {{ description }}
 
 ## Install the dependencies
-```bash
-{{#if_eq autoInstall "npm"}}
+
+``` bash
 npm install
-{{else}}
-yarn
-{{/if_eq}}
 ```
 
 ### Start the app in development mode (hot-code reloading, error reporting, etc.)
-```bash
+
+``` bash
 quasar dev
 ```
 
-{{#preset.lint}}
 ### Lint the files
-```bash
-{{#if_eq autoInstall "npm"}}npm{{else}}yarn{{/if_eq}} run lint
+
+``` bash
+npm run lint
 ```
-{{/preset.lint}}
 
 ### Build the app for production
-```bash
+
+``` bash
 quasar build
 ```
 
 ### Customize the configuration
+
 See [Configuring quasar.conf.js](https://v1.quasar.dev/quasar-cli/quasar-conf-js).

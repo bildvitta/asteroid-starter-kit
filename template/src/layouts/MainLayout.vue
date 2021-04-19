@@ -1,44 +1,10 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
-      <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="leftDrawerOpen = !leftDrawerOpen"
-        />
-
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
-
-        <div>Quasar v\{{ $q.version }}</div>
-      </q-toolbar>
+      <qas-app-bar :apps="apps" brand="//placehold.it/500x400" :is-auth="true" title="ALMOBI" :user="user" @sign-out="signOut" @toggle-menu="toggleMenuDrawer" />
     </q-header>
 
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-      content-class="bg-grey-1"
-    >
-      <q-list>
-        <q-item-label
-          header
-          class="text-grey-8"
-        >
-          Essential Links
-        </q-item-label>
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
-      </q-list>
-    </q-drawer>
+    <qas-app-menu v-model="menuDrawer" :items="menuList" scroll-area-class="almobi-side-menu-gradient" />
 
     <q-page-container>
       <router-view />
@@ -46,96 +12,96 @@
   </q-layout>
 </template>
 
-<script{{#if preset.typescript}} lang="ts"{{/if}}>
-import EssentialLink from 'components/EssentialLink.vue'
-
-const linksData = [
+<script>
+const apps = [
   {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
+    label: 'Hub',
+    image: 'http://placehold.it/640x640'
   },
   {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
+    label: 'Produto',
+    image: 'http://placehold.it/640x640'
   },
   {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
+    label: 'CRM',
+    image: 'http://placehold.it/640x640'
   },
   {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
+    label: 'Vendas',
+    image: 'http://placehold.it/640x640'
   },
   {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
+    label: 'Repasse',
+    image: 'http://placehold.it/640x640'
   },
   {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
+    label: 'Jurídico',
+    image: 'http://placehold.it/640x640'
   }
-];
+]
 
-{{#if preset.typescript}}
-{{#if_eq typescriptConfig "composition"}}import { defineComponent, ref } from '@vue/composition-api';
+const menuList = [
+  {
+    label: 'Usuários',
+    icon: 'o_people_alt',
+    children: [
+      {
+        label: 'Lista de usuários',
+        to: { name: 'UsersList' }
+      },
+      {
+        label: 'Grupos',
+        to: { name: 'GroupsList' }
+      },
+      {
+        label: 'Aprovação de cadastro',
+        to: { name: 'ApprovalsList' }
+      }
+    ]
+  },
 
-export default defineComponent({
-  name: 'MainLayout',
-  components: { EssentialLink },
-  setup() {
-    const leftDrawerOpen = ref(false);
-    const essentialLinks = ref(linksData);
-
-    return {leftDrawerOpen, essentialLinks}
+  {
+    label: 'Políticas',
+    icon: 'o_supervised_user_circle',
+    to: { name: 'PoliciesList' }
   }
-});{{/if_eq}}{{#if_eq typescriptConfig "class"}}import { Vue, Component } from 'vue-property-decorator';
+]
 
-@Component({
-  components: { EssentialLink }
-})
-export default class MainLayout extends Vue {
-  leftDrawerOpen = false;
-  essentialLinks = linksData;
-}{{/if_eq}}{{#if_eq typescriptConfig "options"}}import Vue from 'vue';
+const user = {
+  photo: 'https://www.abc.net.au/cm/lb/6367016/data/alan2c-see-the-person-data.jpg',
+  name: 'Eduardo Lima',
+  email: 'eduardolima@gmail.com'
+}
 
-export default Vue.extend({
-  name: 'MainLayout',
-  components: { EssentialLink },
-  data() {
-    return {
-      leftDrawerOpen: false,
-      essentialLinks: linksData
-    }
-  }
-});{{/if_eq}}
-{{else}}
 export default {
-  name: 'MainLayout',
-  components: { EssentialLink },
   data () {
     return {
-      leftDrawerOpen: false,
-      essentialLinks: linksData
+      menuDrawer: true
+    }
+  },
+
+  computed: {
+    apps () {
+      return apps
+    },
+
+    menuList () {
+      return menuList
+    },
+
+    user () {
+      return user
+    }
+  },
+
+  methods: {
+    signOut () {
+      // console.log('Sign out fired.')
+    },
+
+    toggleMenuDrawer () {
+      this.menuDrawer = !this.menuDrawer
     }
   }
 }
-{{/if}}
 </script>
