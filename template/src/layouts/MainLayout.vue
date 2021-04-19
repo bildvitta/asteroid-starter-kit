@@ -1,10 +1,10 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
-      <qas-app-bar :apps="apps" brand="//placehold.it/500x400" :is-auth="true" title="ALMOBI" :user="user" @sign-out="signOut" @toggle-menu="toggleMenuDrawer" />
+      <qas-app-bar :apps="apps" brand="//placehold.it/500x400" :is-auth="true" title="{{ name }}" :user="user" @sign-out="signOut" @toggle-menu="toggleMenuDrawer" />
     </q-header>
 
-    <qas-app-menu v-model="menuDrawer" :items="menuList" scroll-area-class="almobi-side-menu-gradient" />
+    <qas-app-menu v-model="menuDrawer" :items="menuList" />
 
     <q-page-container>
       <router-view />
