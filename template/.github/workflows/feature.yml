@@ -1,0 +1,40 @@
+name: Feature
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  list_test_build_deploy:
+    name: List, Test, Build and Deploy
+    runs-on: ubuntu-latest
+
+    env:
+      SERVER_BASE_URL: https://api-develop.{{ name }}.nave.dev/
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: 14.x
+
+    - name: Set $APP_BASE env
+      run: echo "APP_BASE=$(echo /${GITHUB_HEAD_REF##*/}/)" >> $GITHUB_ENV
+
+    - uses: bildvitta/actions/quasar-build@master
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.FEATURE_AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.FEATURE_AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.FEATURE_AWS_REGION }}
+
+    - name: S3 Sync
+      run: aws s3 sync ./dist/spa s3://${{ secrets.FEATURE_AWS_S3_BUCKET }}/${GITHUB_HEAD_REF##*/} --delete
+
+    - name: CloudFront Invalidation
+      run: aws cloudfront create-invalidation --distribution-id ${{ secrets.FEATURE_AWS_CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"

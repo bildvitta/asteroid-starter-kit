@@ -1,0 +1,37 @@
+name: Develop
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  list_test_build_deploy:
+    name: List, Test, Build and Deploy
+    runs-on: ubuntu-latest
+
+    env:
+      SERVER_BASE_URL: https://api-develop.{{ name }}.nave.dev/
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: 14.x
+
+    - uses: bildvitta/actions/quasar-build@master
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.DEVELOP_AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.DEVELOP_AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.DEVELOP_AWS_REGION }}
+
+    - name: S3 Sync
+      run: aws s3 sync ./dist/spa s3://${{ secrets.DEVELOP_AWS_S3_BUCKET }} --delete
+
+    - name: CloudFront Invalidation
+      run: aws cloudfront create-invalidation --distribution-id ${{ secrets.DEVELOP_AWS_CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"

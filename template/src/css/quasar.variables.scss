@@ -8,3 +8,26 @@ $positive  : #21BA45;
 $negative  : #C10015;
 $info      : #31CCEC;
 $warning   : #F2C037;
+
+// Asteroid
+@mixin setBrand($name, $color) {
+  :root {
+    --q-color-#{$name}: #{$color};
+  }
+
+  .text-#{$name} {
+    color: $color !important;
+    color: var(--q-color-#{$name}) !important;
+  }
+
+  .bg-#{$name} {
+    background: $color !important;
+    background: var(--q-color-#{$name}) !important;
+  }
+}
+
+$primary-contrast: #eaeaff;
+$secondary-contrast: #bbd3d0;
+
+@include setBrand(primary-contrast, $primary-contrast);
+@include setBrand(secondary-contrast, $secondary-contrast);

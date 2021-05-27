@@ -6,8 +6,10 @@
   "author": "{{ author }}",
   "private": true,
   "scripts": {
+    "build": "npx quasar build -m spa",
     "lint": "eslint --ext .js,.vue ./",
-    "test": "echo \"No test specified\" && exit 0"
+    "test": "echo \"No test specified\" && exit 0",
+    "test:ci": "echo \"No CI test specified\" && exit 0"
   },
   "dependencies": {
     {{#preset.axios}}"axios": "^0.21.1",{{/preset.axios}}
@@ -17,7 +19,7 @@
     "quasar": "^1.0.0"
   },
   "devDependencies": {
-    "@bildvitta/quasar-app-extension-asteroid": "^1.7.0",
+    "@bildvitta/quasar-app-extension-asteroid": "^2.2.0",
     "@bildvitta/quasar-app-extension-responsive": "^0.0.6",
     {{#preset.vuex}}"@bildvitta/vuex-store-module": "^0.0.22",{{/preset.vuex}}
     "babel-eslint": "^10.0.1",

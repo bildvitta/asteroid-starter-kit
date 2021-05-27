@@ -1,0 +1,37 @@
+name: Production
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  list_test_build_deploy:
+    name: List, Test, Build and Deploy
+    runs-on: ubuntu-latest
+
+    env:
+      SERVER_BASE_URL: https://api-production.{{ name }}.nave.dev/
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: 14.x
+
+    - uses: bildvitta/actions/quasar-build@master
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.PRODUCTION_AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.PRODUCTION_AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.PRODUCTION_AWS_REGION }}
+
+    - name: S3 Sync
+      run: aws s3 sync ./dist/spa s3://${{ secrets.PRODUCTION_AWS_S3_BUCKET }} --delete
+
+    - name: CloudFront Invalidation
+      run: aws cloudfront create-invalidation --distribution-id ${{ secrets.PRODUCTION_AWS_CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
