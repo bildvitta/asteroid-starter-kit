@@ -1,6 +1,6 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+  <q-layout view="hHh Lpr lFf">
+    <q-header height-hint="70">
       <qas-app-bar :apps="apps" brand="//placehold.it/500x400" :is-auth="true" title="{{ name }}" :user="user" @sign-out="signOut" @toggle-menu="toggleMenuDrawer" />
     </q-header>
 
