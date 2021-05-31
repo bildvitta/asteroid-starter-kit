@@ -19,7 +19,7 @@
     "quasar": "^1.0.0"
   },
   "devDependencies": {
-    "@bildvitta/quasar-app-extension-asteroid": "^2.3.0",
+    "@bildvitta/quasar-app-extension-asteroid": "^2.3.1",
     "@bildvitta/quasar-app-extension-responsive": "^0.0.6",
     {{#preset.vuex}}"@bildvitta/vuex-store-module": "^1.0.1",{{/preset.vuex}}
     "babel-eslint": "^10.0.1",
