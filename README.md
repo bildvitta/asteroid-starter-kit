@@ -1,4 +1,6 @@
-# Asteroid App Template
+![Quasar Framework logo](https://cdn.quasar.dev/logo-v2/header.png)
+
+# Asteroid • Quasar App Template
 
 Starter Kit for an Asteroid project.
 
