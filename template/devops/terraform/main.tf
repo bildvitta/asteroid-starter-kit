@@ -12,5 +12,5 @@ module "spa-on-aws" {
   aws_route53_zone_id = "Z04421273BIW6F3RFN0QI" # nave.dev
 
   github_owner        = "bildvitta"
-  github_repository   = "hub-client"
+  github_repository   = "{{ name }}-client"
 }
